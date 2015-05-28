@@ -1,0 +1,11 @@
+
+import system.envmanager.interfaces.IEnvManager
+import system.persistence.interfaces.IPersistence
+
+namespace system.persistence {
+	
+	component PersistenceComponent {
+		requires lap: IEnvManager
+		provides persistence: IPersistence
+	}
+}

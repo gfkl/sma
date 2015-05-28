@@ -15,7 +15,7 @@ public class EffectorImpl extends EffectorComponent {
 			public EnvironmentDTO applyToEnvironment(EnvironmentDTO env) {
 				System.out.println("Start of: EffectorImpl#applyToEnvironment");
 				RobotDTO action = requires().decision().makeDecision(env);
-				// TODO
+				// TODO le robot traduit l'action qu'il fait en l'appliquant a l'env du systeme
 				EnvironmentDTO resultEnv = new EnvironmentDTO();
 				System.out.println("End of: EffectorImpl#applyToEnvironment");
 				return resultEnv;

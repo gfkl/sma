@@ -1,0 +1,34 @@
+
+
+import system.gui.GuiComponent
+import system.log.LogComponent
+import system.persistence.PersistenceComponent
+import system.envmanager.EnvManagerComponent
+import system.robot.RobotComponent
+import system.gui.interfaces.IGui
+
+namespace system {
+	
+	component SystemComponent {
+		
+		provides run : IGui = gui.gui
+		
+		part gui: GuiComponent {
+			bind lap to log.log
+		}
+		
+		part log: LogComponent {
+			bind lap to persistence.persistence
+		}
+		
+		part persistence: PersistenceComponent {
+			bind lap to envmanager.lap
+		}
+		
+		part envmanager: EnvManagerComponent {
+			bind robotaction to robot.action
+		}
+		
+		part robot: RobotComponent
+	}
+}

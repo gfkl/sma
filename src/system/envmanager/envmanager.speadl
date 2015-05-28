@@ -1,0 +1,12 @@
+
+
+import system.effector.interfaces.IEffector
+import system.envmanager.interfaces.IEnvManager
+
+namespace system.envmanager {
+	
+	component EnvManagerComponent {
+		requires robotaction: IEffector
+		provides lap: IEnvManager
+	}
+}
