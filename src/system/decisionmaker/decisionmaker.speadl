@@ -1,0 +1,12 @@
+
+
+import system.decisionmaker.interfaces.IDecisionMaker
+import system.collector.interfaces.ICollector
+
+namespace system.decisionmaker {
+	
+	component DecisionMakerComponent {
+		provides decision: IDecisionMaker
+		requires translation: ICollector
+	}
+}

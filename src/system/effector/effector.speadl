@@ -1,0 +1,12 @@
+
+
+import system.effector.interfaces.IEffector
+import system.decisionmaker.interfaces.IDecisionMaker
+
+namespace system.effector {
+	
+	component EffectorComponent {
+		provides applier: IEffector
+		requires decision: IDecisionMaker
+	}
+}

@@ -1,0 +1,10 @@
+
+
+import system.collector.interfaces.ICollector
+
+namespace system.collector {
+	
+	component CollectorComponent {
+		provides translator: ICollector
+	}
+}

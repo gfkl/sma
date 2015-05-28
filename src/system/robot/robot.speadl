@@ -1,0 +1,25 @@
+
+
+import system.decisionmaker.DecisionMakerComponent
+import system.collector.CollectorComponent
+import system.effector.EffectorComponent
+import system.effector.interfaces.IEffector
+
+namespace system.robot {
+
+	component RobotComponent {
+		provides action: IEffector = effector.applier
+		
+		part decisionmaker: DecisionMakerComponent {
+			bind translation to collector.translator
+		}
+		
+		part collector: CollectorComponent
+		
+		part effector: EffectorComponent {
+			bind decision to decisionmaker.decision
+		}
+		
+	}
+
+}
