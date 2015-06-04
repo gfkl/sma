@@ -14,12 +14,14 @@ import system.effector.EffectorComponent;
 import system.effector.impl.EffectorImpl;
 import system.log.LogComponent;
 import system.log.impl.LogImpl;
+import system.model.ColorEnum;
+import system.model.objects.Agent;
 import system.persistence.PersistenceComponent;
 import system.persistence.impl.PersistenceImpl;
 
 public class AgentManagerImpl extends AgentManagerComponent {
 
-	private List<AgentSpecies.Component> agents;
+	private List<Agent> agents;
 
 
 	@Override
@@ -41,19 +43,20 @@ public class AgentManagerImpl extends AgentManagerComponent {
 
 			@Override
 			public void init(int nbAgents) {
-				agents = new ArrayList<AgentSpecies.Component>();
+				agents = new ArrayList<Agent>();
 				for (int i = 0; i < nbAgents; i++) {
-					agents.add(newAgentSpecies(i));
+					agents.add(new Agent(newAgentSpecies(i), i, ColorEnum.RED));
 				}
 			}
 			
 			@Override
 			public EnvDTO executeAgents(EnvDTO env) {
-				for(AgentSpecies.Component agent : agents) {
-					System.out.println("Call to agent");
-					agent.agentaction().applyToEnvironment(null);
+				int id = 1;
+				for(Agent agent : agents) {
+					System.out.println("Call to agent " + agent.getId());
+					env = agent.getComponent().agentaction().applyToEnvironment(env, id);
 				}
-				return null;
+				return env;
 			}
 		};
 	}

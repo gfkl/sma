@@ -12,7 +12,7 @@ public class EffectorImpl extends EffectorComponent {
 		return new IEffector() {
 			
 			@Override
-			public EnvDTO applyToEnvironment(EnvDTO env) {
+			public EnvDTO applyToEnvironment(EnvDTO env, int id) {
 				System.out.println("Start of: EffectorImpl#applyToEnvironment");
 				AgentDTO action = requires().decision().makeDecision(env);
 				// TODO l'agent traduit l'action qu'il fait en l'appliquant a l'env du systeme

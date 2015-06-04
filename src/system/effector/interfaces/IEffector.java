@@ -4,5 +4,5 @@ import system.dto.EnvDTO;
 import system.dto.AgentDTO;
 
 public interface IEffector {
-	EnvDTO applyToEnvironment(EnvDTO env);
+	EnvDTO applyToEnvironment(EnvDTO env, int id);
 }
