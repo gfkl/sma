@@ -8,12 +8,16 @@ public class Agent {
 	private int id;
 	private Box	boxTransported;
 	private ColorEnum color;
+	private int energy;
+	private boolean transportingBox;
 	
 	public Agent(AgentSpecies.Component comp, int id, ColorEnum color) {
 		this.component = comp;
 		this.id = id;
 		this.color = color;
 		this.boxTransported = null;
+		this.energy = 50;
+		this.transportingBox = false;
 	}
 	
 	public AgentSpecies.Component getComponent() {
@@ -38,6 +42,10 @@ public class Agent {
 	
 	public void setBoxTransported(Box boxTransported) {
 		this.boxTransported = boxTransported;
+		if (boxTransported == null)
+			this.transportingBox = false;
+		else
+			this.transportingBox = true;
 	}
 	
 	public ColorEnum getColor() {
@@ -48,4 +56,20 @@ public class Agent {
 		this.color = color;
 	}
 	
+	public int getEnergy() {
+		return energy;
+	}
+
+	public void setEnergy(int energy) {
+		this.energy = energy;
+	}
+
+	public boolean isTransportingBox() {
+		return transportingBox;
+	}
+
+	public void setTransportingBox(boolean transportingBox) {
+		this.transportingBox = transportingBox;
+	}
+
 }

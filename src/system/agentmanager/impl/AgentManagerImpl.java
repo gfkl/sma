@@ -2,6 +2,7 @@ package system.agentmanager.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import system.agentmanager.AgentManagerComponent;
 import system.agentmanager.interfaces.IAgentManager;
@@ -9,6 +10,7 @@ import system.collector.CollectorComponent;
 import system.collector.impl.CollectorImpl;
 import system.decisionmaker.DecisionMakerComponent;
 import system.decisionmaker.impl.DecisionMakerImpl;
+import system.dto.AgentActionDTO;
 import system.dto.EnvDTO;
 import system.effector.EffectorComponent;
 import system.effector.impl.EffectorImpl;
@@ -16,12 +18,14 @@ import system.log.LogComponent;
 import system.log.impl.LogImpl;
 import system.model.ColorEnum;
 import system.model.objects.Agent;
+import system.model.objects.Grid;
 import system.persistence.PersistenceComponent;
 import system.persistence.impl.PersistenceImpl;
 
 public class AgentManagerImpl extends AgentManagerComponent {
 
-	private List<Agent> agents;
+	private List<Agent> agents = new ArrayList<>();
+	private int lastAgentid = 0;
 
 
 	@Override
@@ -42,19 +46,36 @@ public class AgentManagerImpl extends AgentManagerComponent {
 			
 
 			@Override
-			public void init(int nbAgents) {
-				agents = new ArrayList<Agent>();
-				for (int i = 0; i < nbAgents; i++) {
-					agents.add(new Agent(newAgentSpecies(i), i, ColorEnum.RED));
+			public EnvDTO init(EnvDTO env, int nbAgents) {
+				Object[][] grid = env.getGrid().getGrid();
+				
+				for(int i = 0; i < nbAgents; i++) {
+					int posX = new Random().nextInt(Grid.GRID_SIZE); 
+					int posY = new Random().nextInt(Grid.GRID_SIZE);
+					int color = new Random().nextInt(ColorEnum.values().length);
+					int posXSave = posX;
+					
+					while (grid[posX][posY] != null) {
+						posX = (posX + 1) % Grid.GRID_SIZE;
+						if (posX == posXSave)
+							posY++;
+					}
+					Agent newAgent = new Agent(newAgentSpecies(++lastAgentid),lastAgentid,ColorEnum.values()[color]);
+					grid[posX][posY] = newAgent;
+					agents.add(newAgent);
 				}
+				
+				env.getGrid().setGrid(grid);
+				return env;
 			}
 			
 			@Override
 			public EnvDTO executeAgents(EnvDTO env) {
-				int id = 1;
 				for(Agent agent : agents) {
 					System.out.println("Call to agent " + agent.getId());
-					env = agent.getComponent().agentaction().applyToEnvironment(env, id);
+					
+					AgentActionDTO action = agent.getComponent().agentaction().applyToEnvironment(env, agent.getId());
+					env.setGrid(action.getGrid());
 				}
 				return env;
 			}

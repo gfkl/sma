@@ -5,6 +5,10 @@ import system.model.ColorEnum;
 public class Box {
 	private ColorEnum color;
 
+	public Box(ColorEnum color) {
+		this.color = color;
+	}
+	
 	public ColorEnum getColor() {
 		return color;
 	}
