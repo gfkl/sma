@@ -17,22 +17,21 @@ public class EnvManagerImpl extends EnvManagerComponent {
 
 			@Override
 			public void runEnv() {
+				
 				System.out.println("Start of: EnvManagerImpl#runEnv");
 				requires().gui().createGUI();
-				while (true) {
+				while (!this.config.isExit()) {
+					System.out.println("--------------------------------------------");
 					System.out.println("Step: RunEnv#newlap");
 					requires().agentmanager().init(5);
 					this.env = requires().agentmanager().executeAgents(this.env);
-					System.out.println("--------------------------------------------");
-					this.env = requires().agentmanager().executeAgents(this.env);
 					this.config = requires().gui().printEnv(new EnvObsDTO());
 					try {
-						Thread.sleep(this.config.getSpeed()* 1000);
+						Thread.sleep(this.config.getSpeed());
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					break;
 				}
 			}
 			

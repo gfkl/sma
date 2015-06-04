@@ -23,7 +23,7 @@ public class GuiImpl extends GuiComponent{
 
 			@Override
 			public void createGUI() {
-				System.out.println("Start of: GuiImpl#runGui");
+				System.out.println("Start of: GuiImpl#createGui");
 				// TODO Creer la GUI
 				
 			}
