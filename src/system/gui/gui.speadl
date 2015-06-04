@@ -1,12 +1,8 @@
-
-
-import system.log.interfaces.ILog
 import system.gui.interfaces.IGui
 
 namespace system.gui {
 	
 	component GuiComponent {
-		requires lap: ILog
-		provides gui: IGui
+		provides printer : IGui
 	}
 }

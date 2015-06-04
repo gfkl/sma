@@ -1,8 +1,8 @@
 package system.effector.interfaces;
 
-import system.dto.EnvironmentDTO;
-import system.dto.RobotDTO;
+import system.dto.EnvDTO;
+import system.dto.AgentDTO;
 
 public interface IEffector {
-	EnvironmentDTO applyToEnvironment(EnvironmentDTO env);
+	EnvDTO applyToEnvironment(EnvDTO env);
 }

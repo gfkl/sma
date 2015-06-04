@@ -1,7 +1,6 @@
 package system.log.impl;
 
-import system.dto.EnvParamDTO;
-import system.dto.EnvironmentDTO;
+import system.dto.ActionDTO;
 import system.log.LogComponent;
 import system.log.interfaces.ILog;
 
@@ -12,12 +11,11 @@ public class LogImpl extends LogComponent{
 		return new ILog() {
 			
 			@Override
-			public EnvironmentDTO log(EnvParamDTO params) {
+			public void log(ActionDTO action) {
 				System.out.println("Start of: LogImpl#log");
-				EnvironmentDTO env = requires().lap().getLap(params);
 				// TODO Créer le systeme de log
 				System.out.println("End of: LogImpl#log");
-				return env;
+				
 			}
 		};
 	}

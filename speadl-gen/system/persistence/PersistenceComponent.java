@@ -1,16 +1,10 @@
 package system.persistence;
 
-import system.envmanager.interfaces.IEnvManager;
 import system.persistence.interfaces.IPersistence;
 
 @SuppressWarnings("all")
 public abstract class PersistenceComponent {
   public interface Requires {
-    /**
-     * This can be called by the implementation to access this required port.
-     * 
-     */
-    public IEnvManager lap();
   }
   
   public interface Component extends PersistenceComponent.Provides {
@@ -160,5 +154,13 @@ public abstract class PersistenceComponent {
     	_comp.start();
     }
     return _comp;
+  }
+  
+  /**
+   * Use to instantiate a component from this implementation.
+   * 
+   */
+  public PersistenceComponent.Component newComponent() {
+    return this._newComponent(new PersistenceComponent.Requires() {}, true);
   }
 }

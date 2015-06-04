@@ -1,7 +1,8 @@
 package system.envmanager;
 
-import system.effector.interfaces.IEffector;
+import system.agentmanager.interfaces.IAgentManager;
 import system.envmanager.interfaces.IEnvManager;
+import system.gui.interfaces.IGui;
 
 @SuppressWarnings("all")
 public abstract class EnvManagerComponent {
@@ -10,7 +11,13 @@ public abstract class EnvManagerComponent {
      * This can be called by the implementation to access this required port.
      * 
      */
-    public IEffector robotaction();
+    public IAgentManager agentmanager();
+    
+    /**
+     * This can be called by the implementation to access this required port.
+     * 
+     */
+    public IGui gui();
   }
   
   public interface Component extends EnvManagerComponent.Provides {
@@ -21,7 +28,7 @@ public abstract class EnvManagerComponent {
      * This can be called to access the provided port.
      * 
      */
-    public IEnvManager lap();
+    public IEnvManager runenv();
   }
   
   public interface Parts {
@@ -41,16 +48,16 @@ public abstract class EnvManagerComponent {
       
     }
     
-    private void init_lap() {
-      assert this.lap == null: "This is a bug.";
-      this.lap = this.implementation.make_lap();
-      if (this.lap == null) {
-      	throw new RuntimeException("make_lap() in system.envmanager.EnvManagerComponent should not return null.");
+    private void init_runenv() {
+      assert this.runenv == null: "This is a bug.";
+      this.runenv = this.implementation.make_runenv();
+      if (this.runenv == null) {
+      	throw new RuntimeException("make_runenv() in system.envmanager.EnvManagerComponent should not return null.");
       }
     }
     
     protected void initProvidedPorts() {
-      init_lap();
+      init_runenv();
     }
     
     public ComponentImpl(final EnvManagerComponent implem, final EnvManagerComponent.Requires b, final boolean doInits) {
@@ -69,10 +76,10 @@ public abstract class EnvManagerComponent {
       }
     }
     
-    private IEnvManager lap;
+    private IEnvManager runenv;
     
-    public IEnvManager lap() {
-      return this.lap;
+    public IEnvManager runenv() {
+      return this.runenv;
     }
   }
   
@@ -120,7 +127,7 @@ public abstract class EnvManagerComponent {
    * This will be called once during the construction of the component to initialize the port.
    * 
    */
-  protected abstract IEnvManager make_lap();
+  protected abstract IEnvManager make_runenv();
   
   /**
    * This can be called by the implementation to access the required ports.

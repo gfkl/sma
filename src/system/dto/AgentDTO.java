@@ -1,5 +1,5 @@
 package system.dto;
 
-public class EnvParamDTO {
+public class AgentDTO {
 
 }

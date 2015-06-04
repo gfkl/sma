@@ -1,8 +1,8 @@
 package system.decisionmaker.interfaces;
 
-import system.dto.EnvironmentDTO;
-import system.dto.RobotDTO;
+import system.dto.EnvDTO;
+import system.dto.AgentDTO;
 
 public interface IDecisionMaker {
-	RobotDTO makeDecision(EnvironmentDTO env);
+	AgentDTO makeDecision(EnvDTO env);
 }

@@ -1,12 +1,8 @@
-
-
-import system.persistence.interfaces.IPersistence
 import system.log.interfaces.ILog
 
 namespace system.log {
 	
 	component LogComponent {
-		requires lap: IPersistence
 		provides log: ILog
 	}
 }

@@ -1,34 +1,22 @@
-
-
-import system.gui.GuiComponent
-import system.log.LogComponent
-import system.persistence.PersistenceComponent
+import system.agentmanager.AgentManagerComponent
 import system.envmanager.EnvManagerComponent
-import system.robot.RobotComponent
-import system.gui.interfaces.IGui
+import system.envmanager.interfaces.IEnvManager
+import system.gui.GuiComponent
 
 namespace system {
 	
 	component SystemComponent {
-		
-		provides run : IGui = gui.gui
-		
-		part gui: GuiComponent {
-			bind lap to log.log
+
+		part envmanager : EnvManagerComponent {
+			bind gui to gui.printer
+			bind agentmanager to agentmanager.executeagents
 		}
 		
-		part log: LogComponent {
-			bind lap to persistence.persistence
-		}
+		provides runsystem : IEnvManager = envmanager.runenv
 		
-		part persistence: PersistenceComponent {
-			bind lap to envmanager.lap
-		}
+		part gui : GuiComponent 
 		
-		part envmanager: EnvManagerComponent {
-			bind robotaction to robot.action
-		}
+		part agentmanager : AgentManagerComponent
+	}			
 		
-		part robot: RobotComponent
-	}
 }

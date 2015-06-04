@@ -1,16 +1,10 @@
 package system.gui;
 
 import system.gui.interfaces.IGui;
-import system.log.interfaces.ILog;
 
 @SuppressWarnings("all")
 public abstract class GuiComponent {
   public interface Requires {
-    /**
-     * This can be called by the implementation to access this required port.
-     * 
-     */
-    public ILog lap();
   }
   
   public interface Component extends GuiComponent.Provides {
@@ -21,7 +15,7 @@ public abstract class GuiComponent {
      * This can be called to access the provided port.
      * 
      */
-    public IGui gui();
+    public IGui printer();
   }
   
   public interface Parts {
@@ -41,16 +35,16 @@ public abstract class GuiComponent {
       
     }
     
-    private void init_gui() {
-      assert this.gui == null: "This is a bug.";
-      this.gui = this.implementation.make_gui();
-      if (this.gui == null) {
-      	throw new RuntimeException("make_gui() in system.gui.GuiComponent should not return null.");
+    private void init_printer() {
+      assert this.printer == null: "This is a bug.";
+      this.printer = this.implementation.make_printer();
+      if (this.printer == null) {
+      	throw new RuntimeException("make_printer() in system.gui.GuiComponent should not return null.");
       }
     }
     
     protected void initProvidedPorts() {
-      init_gui();
+      init_printer();
     }
     
     public ComponentImpl(final GuiComponent implem, final GuiComponent.Requires b, final boolean doInits) {
@@ -69,10 +63,10 @@ public abstract class GuiComponent {
       }
     }
     
-    private IGui gui;
+    private IGui printer;
     
-    public IGui gui() {
-      return this.gui;
+    public IGui printer() {
+      return this.printer;
     }
   }
   
@@ -120,7 +114,7 @@ public abstract class GuiComponent {
    * This will be called once during the construction of the component to initialize the port.
    * 
    */
-  protected abstract IGui make_gui();
+  protected abstract IGui make_printer();
   
   /**
    * This can be called by the implementation to access the required ports.
@@ -160,5 +154,13 @@ public abstract class GuiComponent {
     	_comp.start();
     }
     return _comp;
+  }
+  
+  /**
+   * Use to instantiate a component from this implementation.
+   * 
+   */
+  public GuiComponent.Component newComponent() {
+    return this._newComponent(new GuiComponent.Requires() {}, true);
   }
 }

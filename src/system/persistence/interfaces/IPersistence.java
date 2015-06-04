@@ -1,8 +1,7 @@
 package system.persistence.interfaces;
 
-import system.dto.EnvParamDTO;
-import system.dto.EnvironmentDTO;
+import system.dto.EnvDTO;
 
 public interface IPersistence {
-	EnvironmentDTO getLap(EnvParamDTO params);
+	void saveContext(EnvDTO env);
 }

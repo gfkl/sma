@@ -1,27 +1,41 @@
 package system.envmanager.impl;
 
-import system.dto.EnvParamDTO;
-import system.dto.EnvironmentDTO;
+import system.dto.EnvConfigDTO;
+import system.dto.EnvDTO;
+import system.dto.EnvObsDTO;
 import system.envmanager.EnvManagerComponent;
 import system.envmanager.interfaces.IEnvManager;
 
 public class EnvManagerImpl extends EnvManagerComponent {
-
+	
 	@Override
-	protected IEnvManager make_lap() {
+	protected IEnvManager make_runenv() {
 		return new IEnvManager() {
-			
+
+			EnvConfigDTO config = new EnvConfigDTO();
+			EnvDTO env = new EnvDTO();
+
 			@Override
-			public EnvironmentDTO runLap(EnvParamDTO params) {
-				System.out.println("Start of: EnvManagerImpl#runLap");
-				// TODO gerer l'env en fonction des params d'entree
-				// TODO boucler sur tous les robots pour creer l'environnement T+1
-				EnvironmentDTO env = new EnvironmentDTO();
-				env = requires().robotaction().applyToEnvironment(env);
-				System.out.println("End of: EnvManagerImpl#runLap");
-				return env;
+			public void runEnv() {
+				System.out.println("Start of: EnvManagerImpl#runEnv");
+				while (true) {
+					System.out.println("Step: RunEnv#newlap");
+					requires().agentmanager().init(5);
+					this.env = requires().agentmanager().executeAgents(this.env);
+					System.out.println("--------------------------------------------");
+					this.env = requires().agentmanager().executeAgents(this.env);
+					this.config = requires().gui().printEnv(new EnvObsDTO());
+					try {
+						Thread.sleep(this.config.getSpeed()* 1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
 			}
+			
 		};
 	}
-	
+		
 }

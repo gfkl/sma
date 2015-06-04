@@ -1,7 +1,7 @@
 package system.effector.impl;
 
-import system.dto.EnvironmentDTO;
-import system.dto.RobotDTO;
+import system.dto.EnvDTO;
+import system.dto.AgentDTO;
 import system.effector.EffectorComponent;
 import system.effector.interfaces.IEffector;
 
@@ -12,11 +12,11 @@ public class EffectorImpl extends EffectorComponent {
 		return new IEffector() {
 			
 			@Override
-			public EnvironmentDTO applyToEnvironment(EnvironmentDTO env) {
+			public EnvDTO applyToEnvironment(EnvDTO env) {
 				System.out.println("Start of: EffectorImpl#applyToEnvironment");
-				RobotDTO action = requires().decision().makeDecision(env);
-				// TODO le robot traduit l'action qu'il fait en l'appliquant a l'env du systeme
-				EnvironmentDTO resultEnv = new EnvironmentDTO();
+				AgentDTO action = requires().decision().makeDecision(env);
+				// TODO l'agent traduit l'action qu'il fait en l'appliquant a l'env du systeme
+				EnvDTO resultEnv = new EnvDTO();
 				System.out.println("End of: EffectorImpl#applyToEnvironment");
 				return resultEnv;
 			}

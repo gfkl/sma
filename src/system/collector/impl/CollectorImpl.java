@@ -2,8 +2,8 @@ package system.collector.impl;
 
 import system.collector.CollectorComponent;
 import system.collector.interfaces.ICollector;
-import system.dto.EnvironmentDTO;
-import system.dto.RobotDTO;
+import system.dto.EnvDTO;
+import system.dto.AgentDTO;
 
 public class CollectorImpl extends CollectorComponent {
 
@@ -12,10 +12,10 @@ public class CollectorImpl extends CollectorComponent {
 		return new ICollector() {
 			
 			@Override
-			public RobotDTO translate(EnvironmentDTO env) {
+			public AgentDTO translate(EnvDTO env) {
 				System.out.println("Start of: CollectorImpl#translate");
-				RobotDTO perception =  new RobotDTO();
-				// TODO traduire l'env en ce que conprend et percoit le robot
+				AgentDTO perception =  new AgentDTO();
+				// TODO traduire l'env en ce que conprend et percoit le agent
 				System.out.println(">>>DEEP POINT OF WORKFLOW<<<");
 				System.out.println("End of: CollectorImpl#translate");
 				return perception;

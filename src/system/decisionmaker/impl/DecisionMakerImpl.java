@@ -2,8 +2,8 @@ package system.decisionmaker.impl;
 
 import system.decisionmaker.DecisionMakerComponent;
 import system.decisionmaker.interfaces.IDecisionMaker;
-import system.dto.EnvironmentDTO;
-import system.dto.RobotDTO;
+import system.dto.EnvDTO;
+import system.dto.AgentDTO;
 
 public class DecisionMakerImpl extends DecisionMakerComponent {
 
@@ -12,11 +12,11 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 		return new IDecisionMaker() {
 
 			@Override
-			public RobotDTO makeDecision(EnvironmentDTO env) {
+			public AgentDTO makeDecision(EnvDTO env) {
 				System.out.println("Start of: DecisionMakerImpl#makeDecision");
-				RobotDTO perception = requires().translation().translate(env);
-				// TODO le robot prend une décision en fonction de ce qu'il voit et de son etat
-				RobotDTO action = new RobotDTO();
+				AgentDTO perception = requires().translation().translate(env);
+				// TODO l'agent prend une décision en fonction de ce qu'il voit et de son etat
+				AgentDTO action = new AgentDTO();
 				System.out.println("End of: DecisionMakerImpl#makeDecision");
 				return action;
 			}

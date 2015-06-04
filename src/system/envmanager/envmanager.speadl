@@ -1,12 +1,12 @@
-
-
-import system.effector.interfaces.IEffector
+import system.agentmanager.interfaces.IAgentManager
 import system.envmanager.interfaces.IEnvManager
+import system.gui.interfaces.IGui
 
 namespace system.envmanager {
 	
 	component EnvManagerComponent {
-		requires robotaction: IEffector
-		provides lap: IEnvManager
+		requires agentmanager : IAgentManager
+		requires gui : IGui
+		provides runenv : IEnvManager
 	}
 }

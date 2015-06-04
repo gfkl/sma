@@ -1,24 +1,24 @@
 package system.gui.impl;
 
-import system.dto.EnvParamDTO;
-import system.dto.EnvironmentDTO;
+import system.dto.EnvConfigDTO;
+import system.dto.EnvDTO;
+import system.dto.EnvObsDTO;
 import system.gui.GuiComponent;
 import system.gui.interfaces.IGui;
 
 public class GuiImpl extends GuiComponent{
 
 	@Override
-	protected IGui make_gui() {
+	protected IGui make_printer() {
 		return new IGui() {
 			
 			@Override
-			public void runGui() {
+			public EnvConfigDTO printEnv(EnvObsDTO env) {
 				System.out.println("Start of: GuiImpl#runGui");
 				// TODO Creer la GUI
-				// TODO Peut influer sur l'en via les params
-				EnvParamDTO params = new EnvParamDTO();
-				EnvironmentDTO env = requires().lap().log(params);
+				// TODO Peut influer sur l'env via les params de config
 				System.out.println("End of: GuiImpl#runGui");
+				return new EnvConfigDTO();
 			}
 		};
 	}

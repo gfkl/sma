@@ -1,8 +1,8 @@
 package system.collector.interfaces;
 
-import system.dto.EnvironmentDTO;
-import system.dto.RobotDTO;
+import system.dto.EnvDTO;
+import system.dto.AgentDTO;
 
 public interface ICollector {
-	RobotDTO translate(EnvironmentDTO env);
+	AgentDTO translate(EnvDTO env);
 }

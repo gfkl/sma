@@ -1,16 +1,10 @@
 package system.log;
 
 import system.log.interfaces.ILog;
-import system.persistence.interfaces.IPersistence;
 
 @SuppressWarnings("all")
 public abstract class LogComponent {
   public interface Requires {
-    /**
-     * This can be called by the implementation to access this required port.
-     * 
-     */
-    public IPersistence lap();
   }
   
   public interface Component extends LogComponent.Provides {
@@ -160,5 +154,13 @@ public abstract class LogComponent {
     	_comp.start();
     }
     return _comp;
+  }
+  
+  /**
+   * Use to instantiate a component from this implementation.
+   * 
+   */
+  public LogComponent.Component newComponent() {
+    return this._newComponent(new LogComponent.Requires() {}, true);
   }
 }
