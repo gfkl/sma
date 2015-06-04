@@ -18,6 +18,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 			@Override
 			public void runEnv() {
 				System.out.println("Start of: EnvManagerImpl#runEnv");
+				requires().gui().createGUI();
 				while (true) {
 					System.out.println("Step: RunEnv#newlap");
 					requires().agentmanager().init(5);

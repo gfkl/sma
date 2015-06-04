@@ -5,4 +5,5 @@ import system.dto.EnvObsDTO;
 
 public interface IGui {
 	EnvConfigDTO	printEnv(EnvObsDTO env);
+	void createGUI();
 }
