@@ -71,9 +71,15 @@ public class EnvManagerImpl extends EnvManagerComponent {
 		
 			@Override
 			public void runEnv() {
+				int lap = 0;
+				
 				initComponents();
 				initEnv();
 				while (!this.config.isExit()) {
+					lap++;
+					if (lap % 5 == 0)
+						generateBoxes(1);
+					
 					this.env = requires().agentmanager().executeAgents(this.env);
 					this.config = requires().gui().printEnv(new EnvObsDTO());
 					try {

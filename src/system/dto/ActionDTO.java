@@ -15,8 +15,9 @@ public class ActionDTO  {
 		this.agentPosition = agentPosition;
 	}
 
-	public ActionDTO(ActionEnum action) {
+	public ActionDTO(ActionEnum action, Position agentPosition) {
 		this.action = action;
+		this.agentPosition = agentPosition;
 	}
 
 	public ActionEnum getAction() {

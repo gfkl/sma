@@ -20,10 +20,7 @@ public class EffectorImpl extends EffectorComponent {
 				ActionDTO action = requires().decision().makeDecision(env, id);
 				AgentActionDTO agentAction = new AgentActionDTO();
 				Object[][] grid = env.getGrid().getGrid();
-				
-				Agent agent = null;
-				if (action.getAgentPosition() != null)
-					agent = ((Agent) grid[action.getAgentPosition().getX()][action.getAgentPosition().getY()]);
+				Agent agent = ((Agent) grid[action.getAgentPosition().getX()][action.getAgentPosition().getY()]);
 
 				switch (action.getAction()) {
 					case MOVE:

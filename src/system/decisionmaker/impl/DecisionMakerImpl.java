@@ -12,6 +12,7 @@ import system.dto.AgentDTO;
 import system.dto.EnvDTO;
 import system.model.ActionEnum;
 import system.model.Position;
+import system.model.objects.Agent;
 import system.model.objects.Box;
 import system.model.objects.Grid;
 import system.model.objects.Nest;
@@ -49,7 +50,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 				if (x < 0 || y < 0)
 					return false;
 				
-				if (x >= Grid.GRID_SIZE || x >= Grid.GRID_SIZE)
+				if (x >= Grid.GRID_SIZE || y >= Grid.GRID_SIZE)
 					return false;
 				
 				if (grid[x][y] != null) {
@@ -269,11 +270,11 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 				perception.getAgent().setEnergy(perception.getAgent().getEnergy() - 1);
 				
 				if (perception.getAgent().getEnergy() > 100) {
-					return new ActionDTO(ActionEnum.CREATE);
+					return new ActionDTO(ActionEnum.CREATE, perception.getPosition());
 				}
 				
 				if (perception.getAgent().getEnergy() < 1) {
-					return new ActionDTO(ActionEnum.DIE);
+					return new ActionDTO(ActionEnum.DIE, perception.getPosition());
 				}
 				
 				// Go to the nest
@@ -289,7 +290,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					Position nextPosition = getNextPosition(perception.getPosition(), stop, env.getGrid().getGrid());
 
 					if (nextPosition == null) {
-						return new ActionDTO(ActionEnum.NOTHING);
+						return new ActionDTO(ActionEnum.NOTHING, perception.getPosition());
 					}
 
 					
@@ -322,7 +323,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					Position nextPosition = getNextPosition(perception.getPosition(), stop, env.getGrid().getGrid());
 					
 					if (nextPosition == null) {
-						return new ActionDTO(ActionEnum.NOTHING);
+						return new ActionDTO(ActionEnum.NOTHING, perception.getPosition());
 					}
 					
 					if (nextPosition.equals(stop)) {
@@ -333,7 +334,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 										
 				}
 				
-				return new ActionDTO(ActionEnum.NOTHING);
+				return new ActionDTO(ActionEnum.NOTHING, perception.getPosition());
 			}
 		};		
 

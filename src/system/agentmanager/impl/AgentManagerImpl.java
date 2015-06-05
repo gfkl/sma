@@ -73,12 +73,16 @@ public class AgentManagerImpl extends AgentManagerComponent {
 			@Override
 			public EnvDTO executeAgents(EnvDTO env) {
 				List<Agent> agentsToKill = new ArrayList<Agent>();
+				int agentsToCreate = 0;
 				
 				for(Agent agent : agents) {
 					AgentActionDTO action = agent.getComponent().agentaction().applyToEnvironment(env, agent.getId());
 
 					if (ActionEnum.DIE.equals(action.getAction())) {
 						agentsToKill.add(agent);
+					}
+					if (ActionEnum.CREATE.equals(action.getAction())) {
+						agentsToCreate++;
 					}
 					
 					env.setGrid(action.getGrid());
@@ -101,6 +105,9 @@ public class AgentManagerImpl extends AgentManagerComponent {
 					}
 					agentsToKill.clear();
 				}
+				
+				if (agentsToCreate > 0)
+					init(env, agentsToCreate);
 				
 				return env;
 			}
