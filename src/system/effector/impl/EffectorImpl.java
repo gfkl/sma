@@ -31,12 +31,13 @@ public class EffectorImpl extends EffectorComponent {
 						break;
 						
 					case PUT:
-						agent.setBoxTransported(null);
 						if (agent.getColor().equals(agent.getBoxTransported().getColor())) {
 							agent.setEnergy(agent.getEnergy() + 50);
 						} else {
 							agent.setEnergy(agent.getEnergy() + 25);
 						}
+
+						agent.setBoxTransported(null);
 						
 						agent.setEnergy(agent.getEnergy() - 1);
 						break;

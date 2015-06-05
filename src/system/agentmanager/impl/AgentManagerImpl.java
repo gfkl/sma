@@ -16,6 +16,7 @@ import system.effector.EffectorComponent;
 import system.effector.impl.EffectorImpl;
 import system.log.LogComponent;
 import system.log.impl.LogImpl;
+import system.model.ActionEnum;
 import system.model.ColorEnum;
 import system.model.objects.Agent;
 import system.model.objects.Grid;
@@ -71,12 +72,36 @@ public class AgentManagerImpl extends AgentManagerComponent {
 			
 			@Override
 			public EnvDTO executeAgents(EnvDTO env) {
+				List<Agent> agentsToKill = new ArrayList<Agent>();
+				
 				for(Agent agent : agents) {
-					System.out.println("Call to agent " + agent.getId());
-					
 					AgentActionDTO action = agent.getComponent().agentaction().applyToEnvironment(env, agent.getId());
+
+					if (ActionEnum.DIE.equals(action.getAction())) {
+						agentsToKill.add(agent);
+					}					
+					
 					env.setGrid(action.getGrid());
 				}
+
+				// Kill agents
+				if (agentsToKill.isEmpty()) {
+					Object[][] grid = env.getGrid().getGrid();
+					for (int x = 0; x < Grid.GRID_SIZE; x++) {
+						for (int y = 0; y < Grid.GRID_SIZE; y++) {
+							if (grid[x][y] instanceof Agent) {					
+								for (Agent agent : agentsToKill) {
+									if (((Agent) grid[x][y]).equals(agent)) {
+										grid[x][y] = null;
+										agents.remove(agent);
+									}
+								}
+							}
+						}
+					}
+					agentsToKill.clear();
+				}
+				
 				return env;
 			}
 		};

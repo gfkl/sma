@@ -21,6 +21,8 @@ public class EnvManagerImpl extends EnvManagerComponent {
 
 			EnvConfigDTO config = new EnvConfigDTO();
 			EnvDTO env = new EnvDTO();
+			int idBox = 0;
+			int idNest = 0;
 
 			private void initComponents() {
 				
@@ -30,9 +32,10 @@ public class EnvManagerImpl extends EnvManagerComponent {
 				Object[][] grid = new Object[Grid.GRID_SIZE][Grid.GRID_SIZE];
 				
 				// Creation of Nests
-				grid[0][0] = new Nest(ColorEnum.RED);
-				grid[Grid.GRID_SIZE - 1][0] = new Nest(ColorEnum.BLUE);
-				grid[Grid.GRID_SIZE - 1][Grid.GRID_SIZE - 1] = new Nest(ColorEnum.GREEN);
+				;
+				grid[0][0] = new Nest(ColorEnum.RED, ++idNest);
+				grid[Grid.GRID_SIZE - 1][0] = new Nest(ColorEnum.BLUE, ++idNest);
+				grid[Grid.GRID_SIZE - 1][Grid.GRID_SIZE - 1] = new Nest(ColorEnum.GREEN, ++idNest);
 
 				this.env.setGrid(new Grid(grid));
 				
@@ -60,7 +63,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 						if (posX == posXSave)
 							posY++;
 					}
-					grid[posX][posY] = new Box(ColorEnum.values()[color]);						
+					grid[posX][posY] = new Box(ColorEnum.values()[color], ++idBox);						
 				}
 				
 				this.env.getGrid().setGrid(grid);
@@ -83,6 +86,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 			}
 			
 			private void debugPrintEnv() {
+				System.out.println("\n----------------------------------------------\n");
 				for (int y = 0; y < Grid.GRID_SIZE; y++) {
 					String line = "";
 					for (int x = 0; x < Grid.GRID_SIZE; x++) {
