@@ -16,7 +16,7 @@ public class GuiImpl extends GuiComponent{
 			public EnvConfigDTO printEnv(EnvObsDTO env) {
 				// afficher a chaque appel de la méthode
 				// TODO Peut influer sur l'env via les params de config
-				return new EnvConfigDTO();
+				return new EnvConfigDTO(100);
 			}
 
 			@Override

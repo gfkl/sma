@@ -22,8 +22,8 @@ public class CollectorImpl extends CollectorComponent {
 				AgentDTO agentPerception =  new AgentDTO();
 				Object[][] grid = env.getGrid().getGrid();
 				
-				for (int x = 0; x < Grid.GRID_SIZE; x++) {
-					for (int y = 0; y < Grid.GRID_SIZE; y++) {
+				for (int x = 0; x < env.getGrid().getGridSize(); x++) {
+					for (int y = 0; y < env.getGrid().getGridSize(); y++) {
 						if (grid[x][y] instanceof Agent) {
 							Agent agent = ((Agent) grid[x][y]);
 							

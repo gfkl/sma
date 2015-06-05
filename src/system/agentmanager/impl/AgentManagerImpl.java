@@ -51,17 +51,17 @@ public class AgentManagerImpl extends AgentManagerComponent {
 				Object[][] grid = env.getGrid().getGrid();
 				
 				for(int i = 0; i < nbAgents; i++) {
-					int posX = new Random().nextInt(Grid.GRID_SIZE); 
-					int posY = new Random().nextInt(Grid.GRID_SIZE);
+					int posX = new Random().nextInt(env.getGrid().getGridSize()); 
+					int posY = new Random().nextInt(env.getGrid().getGridSize());
 					int color = new Random().nextInt(ColorEnum.values().length);
 					int posXSave = posX;
 					
 					while (grid[posX][posY] != null) {
-						posX = (posX + 1) % Grid.GRID_SIZE;
+						posX = (posX + 1) % env.getGrid().getGridSize();
 						if (posX == posXSave)
 							posY++;
 					}
-					Agent newAgent = new Agent(newAgentSpecies(++lastAgentid),lastAgentid,ColorEnum.values()[color]);
+					Agent newAgent = new Agent(newAgentSpecies(++lastAgentid),lastAgentid,ColorEnum.values()[color], env.getEnergyInit());
 					grid[posX][posY] = newAgent;
 					agents.add(newAgent);
 				}
@@ -91,13 +91,13 @@ public class AgentManagerImpl extends AgentManagerComponent {
 				// Kill agents
 				if (!agentsToKill.isEmpty()) {
 					Object[][] grid = env.getGrid().getGrid();
-					for (int x = 0; x < Grid.GRID_SIZE; x++) {
-						for (int y = 0; y < Grid.GRID_SIZE; y++) {
-							if (grid[x][y] instanceof Agent) {					
+					for (int x = 0; x < env.getGrid().getGridSize(); x++) {
+						for (int y = 0; y < env.getGrid().getGridSize(); y++) {
+							if (grid[x][y] != null && grid[x][y] instanceof Agent) {					
 								for (Agent agent : agentsToKill) {
-									if (((Agent) grid[x][y]).equals(agent)) {
-										grid[x][y] = null;
+									if (agent.equals(((Agent) grid[x][y]))) {
 										agents.remove(agent);
+										grid[x][y] = null;
 									}
 								}
 							}

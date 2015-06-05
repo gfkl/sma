@@ -45,12 +45,12 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 				return bestStop;
 			}
 			
-			private boolean isAvailable(Object[][] grid, int x, int y) {
+			private boolean isAvailable(Object[][] grid, int x, int y, int gridSize) {
 				
 				if (x < 0 || y < 0)
 					return false;
 				
-				if (x >= Grid.GRID_SIZE || y >= Grid.GRID_SIZE)
+				if (x >= gridSize || y >= gridSize)
 					return false;
 				
 				if (grid[x][y] != null) {
@@ -60,7 +60,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 				return true;
 			}
 			
-			private Position getNextPosition(Position start, Position stop, Object[][] grid) {
+			private Position getNextPosition(Position start, Position stop, Object[][] grid, int gridSize) {
 				
 				Position newPos = null;
 				
@@ -73,21 +73,21 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 						newPos.setY(newPos.getY() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() + 1);							
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 2);
 						newPos.setY(newPos.getY() - 2);
 					} 
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -98,19 +98,19 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}	
@@ -121,21 +121,21 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 1);
 						newPos.setY(newPos.getY() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 2);
 						newPos.setY(newPos.getY() - 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -146,19 +146,19 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() - 1);						
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() + 2);						
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);	
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() - 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -169,21 +169,21 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 						newPos.setY(newPos.getY() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 2);
 						newPos.setY(newPos.getY() - 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -194,19 +194,19 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -217,21 +217,21 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() - 1);
 						newPos.setY(newPos.getY() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() - 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 2);
 						newPos.setY(newPos.getY() + 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -242,19 +242,19 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					if (newPos.equals(stop)) {
 						return newPos;
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() - 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setX(newPos.getX() + 1);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos.setY(newPos.getY() + 2);
 					}
-					if (!isAvailable(grid, newPos.getX(), newPos.getY())) {
+					if (!isAvailable(grid, newPos.getX(), newPos.getY(), gridSize)) {
 						newPos = null;
 					}
 				}
@@ -267,9 +267,9 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 				AgentDTO perception = requires().translation().translate(env, id);				
 				
 				// Consume energy for thinking
-				perception.getAgent().setEnergy(perception.getAgent().getEnergy() - 1);
+				perception.getAgent().setEnergy(perception.getAgent().getEnergy() - env.getEnergyConsumedAction());
 				
-				if (perception.getAgent().getEnergy() > 100) {
+				if (perception.getAgent().getEnergy() > env.getEnergyRequiredToCreate()) {
 					return new ActionDTO(ActionEnum.CREATE, perception.getPosition());
 				}
 				
@@ -287,7 +287,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					}
 					
 					Position stop = getNearestPosition(perception.getPosition(), potentielNestPositions);
-					Position nextPosition = getNextPosition(perception.getPosition(), stop, env.getGrid().getGrid());
+					Position nextPosition = getNextPosition(perception.getPosition(), stop, env.getGrid().getGrid(), env.getGrid().getGridSize());
 
 					if (nextPosition == null) {
 						return new ActionDTO(ActionEnum.NOTHING, perception.getPosition());
@@ -320,7 +320,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					}
 					
 					Position stop = getNearestPosition(perception.getPosition(), potentielBoxPositions);
-					Position nextPosition = getNextPosition(perception.getPosition(), stop, env.getGrid().getGrid());
+					Position nextPosition = getNextPosition(perception.getPosition(), stop, env.getGrid().getGrid(), env.getGrid().getGridSize());
 					
 					if (nextPosition == null) {
 						return new ActionDTO(ActionEnum.NOTHING, perception.getPosition());

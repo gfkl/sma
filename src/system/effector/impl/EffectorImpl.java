@@ -27,19 +27,19 @@ public class EffectorImpl extends EffectorComponent {
 						grid[action.getAgentPosition().getX()][action.getAgentPosition().getY()] = null;
 						grid[action.getActionPosition().getX()][action.getActionPosition().getY()] = agent;
 
-						agent.setEnergy(agent.getEnergy() - 1);						
+						agent.setEnergy(agent.getEnergy() - env.getEnergyConsumedAction());						
 						break;
 						
 					case PUT:
 						if (agent.getColor().equals(agent.getBoxTransported().getColor())) {
-							agent.setEnergy(agent.getEnergy() + 50);
+							agent.setEnergy(agent.getEnergy() + env.getEnergyGoodColorBoxReward());
 						} else {
-							agent.setEnergy(agent.getEnergy() + 25);
+							agent.setEnergy(agent.getEnergy() + env.getEnergyWrongColorBoxReward());
 						}
 
 						agent.setBoxTransported(null);
 						
-						agent.setEnergy(agent.getEnergy() - 1);
+						agent.setEnergy(agent.getEnergy() - env.getEnergyConsumedAction());
 						break;
 
 					case GET:
@@ -47,11 +47,11 @@ public class EffectorImpl extends EffectorComponent {
 						agent.setBoxTransported(box);
 						grid[action.getActionPosition().getX()][action.getActionPosition().getY()] = null;
 
-						agent.setEnergy(agent.getEnergy() - 1);
+						agent.setEnergy(agent.getEnergy() - env.getEnergyConsumedAction());
 						break;
 
 					case CREATE:
-						agent.setEnergy(agent.getEnergy() - 50);
+						agent.setEnergy(agent.getEnergy() - env.getEnergyConcumedToCreate());
 						break;
 
 					case DIE:
@@ -65,7 +65,7 @@ public class EffectorImpl extends EffectorComponent {
 						break;
 				}
 				agentAction.setAction(action.getAction());
-				agentAction.setGrid(new Grid(grid));
+				agentAction.setGrid(new Grid(grid, env.getGrid().getGridSize()));
 				
 				return agentAction;
 			}

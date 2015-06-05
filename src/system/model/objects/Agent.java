@@ -11,12 +11,12 @@ public class Agent {
 	private int energy;
 	private boolean transportingBox;
 	
-	public Agent(AgentSpecies.Component comp, int id, ColorEnum color) {
+	public Agent(AgentSpecies.Component comp, int id, ColorEnum color, int energy) {
 		this.component = comp;
 		this.id = id;
 		this.color = color;
 		this.boxTransported = null;
-		this.energy = 50;
+		this.energy = energy;
 		this.transportingBox = false;
 	}
 	

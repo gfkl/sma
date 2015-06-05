@@ -7,9 +7,9 @@ public class EnvConfigDTO {
 	
 	private boolean exit;
 	
-	public EnvConfigDTO() {
-		speed = 1000;
+	public EnvConfigDTO(int speed) {
 		this.exit = false;
+		this.speed = speed;
 	}
 
 	public int getSpeed() {
