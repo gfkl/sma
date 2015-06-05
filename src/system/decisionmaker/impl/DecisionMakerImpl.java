@@ -33,7 +33,7 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 					int steps = 0;
 					
 					steps = (Math.abs(x) > Math.abs(y)) ? Math.abs(y) : Math.abs(x);
-					steps += Math.abs(x) - Math.abs(y);
+					steps += Math.abs(Math.abs(x) - Math.abs(y));
 					
 					if (bestSteps == -1 || bestSteps > steps) {
 						bestStop = stop;
@@ -62,6 +62,9 @@ public class DecisionMakerImpl extends DecisionMakerComponent {
 			private Position getNextPosition(Position start, Position stop, Object[][] grid) {
 				
 				Position newPos = null;
+				
+				if (stop == null)
+					return null;
 
 				// Go to SW
 				if (start.getX() > stop.getX() && start.getY() > stop.getY()) {

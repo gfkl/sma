@@ -79,13 +79,13 @@ public class AgentManagerImpl extends AgentManagerComponent {
 
 					if (ActionEnum.DIE.equals(action.getAction())) {
 						agentsToKill.add(agent);
-					}					
+					}
 					
 					env.setGrid(action.getGrid());
 				}
 
 				// Kill agents
-				if (agentsToKill.isEmpty()) {
+				if (!agentsToKill.isEmpty()) {
 					Object[][] grid = env.getGrid().getGrid();
 					for (int x = 0; x < Grid.GRID_SIZE; x++) {
 						for (int y = 0; y < Grid.GRID_SIZE; y++) {
