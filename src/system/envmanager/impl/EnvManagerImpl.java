@@ -19,6 +19,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 	protected IEnvManager make_runenv() {
 		return new IEnvManager() {
 
+			// System configuration. You can update values to experiment agent behaviors
 			public static final int GRID_SIZE = 50;
 			public static final int NB_BOXES_INIT = GRID_SIZE / 2;
 			public static final int LAP_SPEED_INIT = 100; // ms
@@ -31,6 +32,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 			public static final int ENERGY_CONSUMED_TO_CREATE = GRID_SIZE * 5;
 			public static final int ENERGY_REQUIRED_TO_CREATE = GRID_SIZE * 10;
 			public static final int ENERGY_CONSUMED_ACTION = 1;
+			public static final boolean DEBUG_PRINTER = true;
 			
 
 			
@@ -48,6 +50,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 				grid[GRID_SIZE - 1][0] = new Nest(ColorEnum.BLUE, ++idNest);
 				grid[GRID_SIZE - 1][GRID_SIZE - 1] = new Nest(ColorEnum.GREEN, ++idNest);
 
+				// Set env for components
 				this.env.setGrid(new Grid(grid, GRID_SIZE));
 				this.env.setEnergyInit(AGENT_ENERGY_INIT);
 				this.env.setEnergyGoodColorBoxReward(GOOD_COLOR_BOX_ENERGY_REWARD);
@@ -93,18 +96,31 @@ public class EnvManagerImpl extends EnvManagerComponent {
 				
 				initEnv();
 				while (!this.config.isExit()) {
+
+					// Boxes generator
 					lap++;
 					if (lap % NB_LAPS_CREATE_BOX == 0)
 						generateBoxes(NB_BOXES_TO_CREATE);
-					
+
+					// Execute agents
 					this.env = requires().agentmanager().executeAgents(this.env);
-					this.config = requires().gui().printEnv(new EnvObsDTO());
+
+					// Build env for GUI
+					EnvObsDTO envObs = new EnvObsDTO();
+					envObs.setGrid(new Grid(this.env.getGrid().getGrid(), GRID_SIZE));
+					this.config = requires().gui().printEnv(envObs);
+
+					// Debug trace of the grid
+					if (DEBUG_PRINTER) {
+						debugPrintEnv();
+					}
+					
+					// timer
 					try {
 						Thread.sleep(this.config.getSpeed());
 					} catch (InterruptedException e) {
 						System.err.println("Tread sleep failed");
 					}
-					debugPrintEnv();
 				}
 			}
 			

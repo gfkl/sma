@@ -1,13 +1,15 @@
 package system.dto;
 
-public class EnvObsDTO {
-	private Object[][] grid;
+import system.model.objects.Grid;
 
-	public Object[][] getGrid() {
+public class EnvObsDTO {
+	private Grid grid;
+
+	public Grid getGrid() {
 		return grid;
 	}
 
-	public void setGrid(Object[][] grid) {
+	public void setGrid(Grid grid) {
 		this.grid = grid;
 	}
 	
