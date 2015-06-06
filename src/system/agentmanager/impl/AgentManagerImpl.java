@@ -19,7 +19,6 @@ import system.log.impl.LogImpl;
 import system.model.ActionEnum;
 import system.model.ColorEnum;
 import system.model.objects.Agent;
-import system.model.objects.Grid;
 import system.persistence.PersistenceComponent;
 import system.persistence.impl.PersistenceImpl;
 
@@ -87,6 +86,7 @@ public class AgentManagerImpl extends AgentManagerComponent {
 					}
 					
 					if(env.getIdAgentFollow() != -1 && agent.getId() == env.getIdAgentFollow()){
+						action.setAgent(agent);
 						parts().log().log().log(action);
 					}
 					
