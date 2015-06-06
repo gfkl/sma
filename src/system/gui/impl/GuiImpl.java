@@ -20,22 +20,56 @@ public class GuiImpl extends GuiComponent {
 
 	private JFrame frame;
 	private final int incSpeed = 250;
+	private boolean isPause = false;
+	private boolean nextStep = false;
+	private boolean readByStep = false;
 	private int speed;
-	private int currentSpeed;
-	
+
 	@Override
 	protected IGui make_printer() {
 		return new IGui() {
 			@Override
 			public EnvConfigDTO printEnv(EnvObsDTO env) {
 				Object[][] objs = (Object[][]) env.getGrid().getGrid();
-				FieldView field = new FieldView(objs);
+				FieldView field = new FieldView(objs, env.getGrid().getGridSize());
 				JTable table = new JTable(field);
 				table.setDefaultRenderer(Object.class, new MonCellRenderer());
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(table);
 				frame.setVisible(true);
+				
+				managePause();
+				if(readByStep)
+					manageStepByStep();
+
 				return new EnvConfigDTO(speed);
+			}
+
+			private void manageStepByStep() {
+				nextStep = true;
+			    while(nextStep){
+			    	if(!nextStep || !readByStep){
+			    		break;
+			    	}
+			        try {
+			        	//Optimise the proc
+			            Thread.sleep(500);
+			        }
+			        catch (InterruptedException e) {}
+			    }
+			}
+
+			private void managePause() {
+			    while(isPause){
+			    	if(!isPause){
+			    		break;
+			    	}
+			        try {
+			        	//Optimise the proc
+			            Thread.sleep(500);
+			        }
+			        catch (InterruptedException e) {}
+			    }
 			}
 
 			@Override
@@ -45,87 +79,100 @@ public class GuiImpl extends GuiComponent {
 				frame.setTitle("SMA-AL Viewer");
 				frame.setBounds(100, 100, 900, 900);
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
+
 				createMenuBar();
 			}
 
-			
-		    private void createMenuBar() {
 
-		        JMenuBar menubar = new JMenuBar();
+			private void createMenuBar() {
 
-		        JMenu file = new JMenu("Action");
-		        file.setMnemonic(KeyEvent.VK_F);
+				JMenuBar menubar = new JMenuBar();
 
-		        
-		        
-		        JMenuItem eMenuItemSpeedUp = new JMenuItem("Speed Up");
-		        eMenuItemSpeedUp.setAccelerator(KeyStroke.getKeyStroke(
-		                java.awt.event.KeyEvent.VK_UP, 
-		                java.awt.Event.CTRL_MASK));
-		        eMenuItemSpeedUp.setToolTipText("Pause application");
-		        eMenuItemSpeedUp.addActionListener(new ActionListener() {
-		            @Override
-		            public void actionPerformed(ActionEvent event) {
-		            	if(speed > incSpeed)
-		            		speed -= incSpeed;
-		            	else
-		            		speed = 0;
+				JMenu file = new JMenu("Action");
+				file.setMnemonic(KeyEvent.VK_F);
 
-		            }
-		        });
-		        
-		        JMenuItem eMenuItemSpeedDown = new JMenuItem("Speed Down");
-		        eMenuItemSpeedDown.setAccelerator(KeyStroke.getKeyStroke(
-		                java.awt.event.KeyEvent.VK_DOWN, 
-		                java.awt.Event.CTRL_MASK));
-		        eMenuItemSpeedDown.setToolTipText("Pause application");
-		        eMenuItemSpeedDown.addActionListener(new ActionListener() {
-		            @Override
-		            public void actionPerformed(ActionEvent event) {
-		            		speed += incSpeed;
-		            }
-		        });
-		        
-		        
-		        
-		        JMenuItem eMenuItemPause = new JMenuItem("Pause");
-		        eMenuItemPause.setAccelerator(KeyStroke.getKeyStroke(
-		                java.awt.event.KeyEvent.VK_P, 
-		                java.awt.Event.CTRL_MASK));
-		        eMenuItemPause.setToolTipText("Pause application");
-		        eMenuItemPause.addActionListener(new ActionListener() {
-		            @Override
-		            public void actionPerformed(ActionEvent event) {
-		            	if(speed != 0){
-		            		currentSpeed = speed;
-		            		speed = 10000;
-		            	}else
-		            		speed = currentSpeed;
-		            }
-		        });
-		        
-		        
-		        JMenuItem eMenuItemExit = new JMenuItem("Exit");
-		        eMenuItemExit.setAccelerator(KeyStroke.getKeyStroke(
-		                java.awt.event.KeyEvent.VK_E, 
-		                java.awt.Event.CTRL_MASK));
-		        eMenuItemExit.setToolTipText("Exit application");
-		        eMenuItemExit.addActionListener(new ActionListener() {
-		            @Override
-		            public void actionPerformed(ActionEvent event) {
-		                System.exit(0);
-		            }
-		        });
+				JMenuItem eMenuItemByStep= new JMenuItem("Step By Step");
+				eMenuItemByStep.setAccelerator(KeyStroke.getKeyStroke(
+						java.awt.event.KeyEvent.VK_RIGHT, 
+						java.awt.Event.CTRL_MASK));
+				eMenuItemByStep.setToolTipText("Read Step by Step application");
+				eMenuItemByStep.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						readByStep = true;
+						nextStep = !nextStep;
+					}
+				});
+				
+				JMenuItem eMenuItemSpeedUp = new JMenuItem("Speed Up");
+				eMenuItemSpeedUp.setAccelerator(KeyStroke.getKeyStroke(
+						java.awt.event.KeyEvent.VK_UP, 
+						java.awt.Event.CTRL_MASK));
+				eMenuItemSpeedUp.setToolTipText("Speed up application");
+				eMenuItemSpeedUp.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						if(speed > incSpeed)
+							speed -= incSpeed;
+						else
+							speed = 0;
+						
+						readByStep = false;
+					}
+				});
 
-		        file.add(eMenuItemSpeedUp);
-		        file.add(eMenuItemSpeedDown);
-		        file.add(eMenuItemPause);
-		        file.add(eMenuItemExit);
-		        menubar.add(file);
+				JMenuItem eMenuItemSpeedDown = new JMenuItem("Speed Down");
+				eMenuItemSpeedDown.setAccelerator(KeyStroke.getKeyStroke(
+						java.awt.event.KeyEvent.VK_DOWN, 
+						java.awt.Event.CTRL_MASK));
+				eMenuItemSpeedDown.setToolTipText("Speed down application");
+				eMenuItemSpeedDown.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						speed += incSpeed;
+						readByStep = false;
 
-		        frame.setJMenuBar(menubar);
-		    }
+					}
+				});
+
+
+
+				JMenuItem eMenuItemPause = new JMenuItem("Pause");
+				eMenuItemPause.setAccelerator(KeyStroke.getKeyStroke(
+						java.awt.event.KeyEvent.VK_P, 
+						java.awt.Event.CTRL_MASK));
+				eMenuItemPause.setToolTipText("Pause application");
+				eMenuItemPause.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						isPause = !isPause;
+						readByStep = false;
+
+					}
+				});
+
+
+				JMenuItem eMenuItemExit = new JMenuItem("Exit");
+				eMenuItemExit.setAccelerator(KeyStroke.getKeyStroke(
+						java.awt.event.KeyEvent.VK_E, 
+						java.awt.Event.CTRL_MASK));
+				eMenuItemExit.setToolTipText("Exit application");
+				eMenuItemExit.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						System.exit(0);
+					}
+				});
+
+				file.add(eMenuItemByStep);
+				file.add(eMenuItemSpeedUp);
+				file.add(eMenuItemSpeedDown);
+				file.add(eMenuItemPause);
+				file.add(eMenuItemExit);
+				menubar.add(file);
+
+				frame.setJMenuBar(menubar);
+			}
 		};
 
 	}

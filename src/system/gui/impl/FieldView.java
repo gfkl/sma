@@ -10,15 +10,12 @@ import system.model.objects.Nest;
 public class FieldView extends AbstractTableModel  {
 	
 	private Object[][] data;
+	private int sizeGrid;
 	
-	public FieldView( Object[][] data) {
+	public FieldView( Object[][] data, int size) {
 		super();
 		this.data = data;
-	}
-	
-	@Override
-	public int getRowCount() {
-		return 50;
+		this.sizeGrid = size;
 	}
 
 	@Override
@@ -72,6 +69,12 @@ public class FieldView extends AbstractTableModel  {
 
 	@Override
 	public int getColumnCount() {
-		return 50;
+		return this.sizeGrid;
 	}
+	
+	@Override
+	public int getRowCount() {
+		return this.sizeGrid;
+	}
+
 }
