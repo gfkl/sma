@@ -114,6 +114,7 @@ public class AgentManagerImpl extends AgentManagerComponent {
 				if (agentsToCreate > 0)
 					init(env, agentsToCreate);
 				
+				parts().persistence().persistence().saveContext(env);
 				return env;
 			}
 		};
