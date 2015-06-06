@@ -66,6 +66,7 @@ public class AgentManagerImpl extends AgentManagerComponent {
 					agents.add(newAgent);
 				}
 				
+				
 				env.getGrid().setGrid(grid);
 				return env;
 			}
@@ -83,6 +84,10 @@ public class AgentManagerImpl extends AgentManagerComponent {
 					}
 					if (ActionEnum.CREATE.equals(action.getAction())) {
 						agentsToCreate++;
+					}
+					
+					if(env.getIdAgentFollow() != -1 && agent.getId() == env.getIdAgentFollow()){
+						parts().log().log().log(action);
 					}
 					
 					env.setGrid(action.getGrid());

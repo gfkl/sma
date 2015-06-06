@@ -32,7 +32,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 			public static final int ENERGY_CONSUMED_TO_CREATE = GRID_SIZE * 5;
 			public static final int ENERGY_REQUIRED_TO_CREATE = GRID_SIZE * 10;
 			public static final int ENERGY_CONSUMED_ACTION = 1;
-			public static final boolean DEBUG_PRINTER = true;
+			public static final boolean DEBUG_PRINTER = false;
 			
 
 			
@@ -67,6 +67,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 
 				// Creation of GUI
 				requires().gui().createGUI();
+				
 			}
 			
 			private void generateBoxes(int nbBox) {
@@ -109,7 +110,9 @@ public class EnvManagerImpl extends EnvManagerComponent {
 					EnvObsDTO envObs = new EnvObsDTO();
 					envObs.setGrid(new Grid(this.env.getGrid().getGrid(), GRID_SIZE));
 					this.config = requires().gui().printEnv(envObs);
-
+					
+					this.env.setIdAgentFollow(envObs.getIdAgentSelected());
+					
 					// Debug trace of the grid
 					if (DEBUG_PRINTER) {
 						debugPrintEnv();

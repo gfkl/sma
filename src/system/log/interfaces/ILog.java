@@ -1,7 +1,7 @@
 package system.log.interfaces;
 
-import system.dto.ActionDTO;
+import system.dto.AgentActionDTO;
 
 public interface ILog {
-	void log(ActionDTO action);
+	void log(AgentActionDTO action);
 }

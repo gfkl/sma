@@ -1,6 +1,6 @@
 package system.log.impl;
 
-import system.dto.ActionDTO;
+import system.dto.AgentActionDTO;
 import system.log.LogComponent;
 import system.log.interfaces.ILog;
 
@@ -11,11 +11,8 @@ public class LogImpl extends LogComponent{
 		return new ILog() {
 			
 			@Override
-			public void log(ActionDTO action) {
-				System.out.println("Start of: LogImpl#log");
-				// TODO Créer le systeme de log
-				System.out.println("End of: LogImpl#log");
-				
+			public void log(AgentActionDTO action) {
+				System.out.println("Agent Action : "+action.getAction().toString());
 			}
 		};
 	}

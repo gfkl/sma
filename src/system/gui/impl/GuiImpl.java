@@ -31,7 +31,8 @@ public class GuiImpl extends GuiComponent {
 	private int speed;
 	
 	private List<Integer> listAgentFollow = new ArrayList<Integer>();
-
+	private int idLastAgentFollow = -1;
+	
 	@Override
 	protected IGui make_printer() {
 		return new IGui() {
@@ -53,12 +54,15 @@ public class GuiImpl extends GuiComponent {
 			            Object comp = objs[row][column];
 			            if (comp instanceof Agent) {
 			            	listAgentFollow.add(((Agent) comp).getId());
-			            	//env.setIdAgentSelected(idAgentFollow);
+			            	idLastAgentFollow = ((Agent) comp).getId();
 			            }
 
 			        }
 			    });
 			    
+			    if(idLastAgentFollow != -1){
+			    	env.setIdAgentSelected(idLastAgentFollow);
+			    }
 			    
 				frame.getContentPane().removeAll();
 				frame.getContentPane().add(table);

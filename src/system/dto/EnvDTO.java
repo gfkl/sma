@@ -3,6 +3,8 @@ package system.dto;
 import system.model.objects.Grid;
 
 public class EnvDTO {
+	
+	private int idAgentFollow;
 	private Grid grid;
 	private int energyInit;
 	private int energyWrongColorBoxReward;
@@ -67,6 +69,14 @@ public class EnvDTO {
 		this.energyConsumedAction = energyConsumedAction;
 	}
 	
+	public int getIdAgentFollow() {
+		return idAgentFollow;
+	}
+
+	public void setIdAgentFollow(int idAgentFollow) {
+		this.idAgentFollow = idAgentFollow;
+	}
+
 	
 	
 }
