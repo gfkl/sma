@@ -22,7 +22,7 @@ import system.model.objects.Agent;
 public class GuiImpl extends GuiComponent {
 
 	private JFrame frame;
-	private final int incSpeed = 250;
+	private final int incSpeed = 50;
 	private boolean isPause = false;
 	private boolean nextStep = false;
 	private boolean readByStep = false;
