@@ -28,6 +28,7 @@ public class GuiImpl extends GuiComponent {
 	private boolean isPause = false;
 	private boolean nextStep = false;
 	private boolean readByStep = false;
+	private boolean follow = false;
 	private int speed;
 	
 	private List<Integer> listAgentFollow = new ArrayList<Integer>();
@@ -39,7 +40,7 @@ public class GuiImpl extends GuiComponent {
 			@Override
 			public EnvConfigDTO printEnv(EnvObsDTO env) {
 				Object[][] objs = (Object[][]) env.getGrid().getGrid();
-				FieldView field = new FieldView(objs, env.getGrid().getGridSize(), listAgentFollow);
+				FieldView field = new FieldView(objs, env.getGrid().getGridSize(), listAgentFollow, follow);
 				JTable table = new JTable(field);
 				table.setDefaultRenderer(Object.class, new MonCellRenderer());
 				
@@ -126,6 +127,18 @@ public class GuiImpl extends GuiComponent {
 				JMenu file = new JMenu("Action");
 				file.setMnemonic(KeyEvent.VK_F);
 
+				JMenuItem eMenuItemFollow= new JMenuItem("Follow Selected");
+				eMenuItemFollow.setAccelerator(KeyStroke.getKeyStroke(
+						java.awt.event.KeyEvent.VK_F, 
+						java.awt.Event.CTRL_MASK));
+				eMenuItemFollow.setToolTipText("Follow Select");
+				eMenuItemFollow.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent event) {
+						follow = !follow;
+					}
+				});
+				
 				JMenuItem eMenuItemByStep= new JMenuItem("Step By Step");
 				eMenuItemByStep.setAccelerator(KeyStroke.getKeyStroke(
 						java.awt.event.KeyEvent.VK_RIGHT, 
@@ -198,7 +211,8 @@ public class GuiImpl extends GuiComponent {
 						System.exit(0);
 					}
 				});
-
+				
+				file.add(eMenuItemFollow);
 				file.add(eMenuItemByStep);
 				file.add(eMenuItemSpeedUp);
 				file.add(eMenuItemSpeedDown);

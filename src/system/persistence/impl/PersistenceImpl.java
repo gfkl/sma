@@ -29,7 +29,6 @@ public class PersistenceImpl extends PersistenceComponent {
 
 			@Override
 			public void saveContext(EnvDTO env) {
-				System.out.println("Start of: PersistenceImpl#getLap");
 				try {
 					final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				    final DocumentBuilder builder = factory.newDocumentBuilder();
@@ -52,10 +51,6 @@ public class PersistenceImpl extends PersistenceComponent {
 				}catch (Exception e) {
 				    e.printStackTrace();
 				}
-
-
-				System.out.println("End of: PersistenceImpl#getLap");
-
 			}
 
 			private void deleteFileIfExist() {

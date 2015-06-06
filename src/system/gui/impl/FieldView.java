@@ -14,12 +14,14 @@ public class FieldView extends AbstractTableModel  {
 	private Object[][] data;
 	private int sizeGrid;
 	private List<Integer> listAgentFollow;
+	private boolean follow;
 
-	public FieldView( Object[][] data, int size, List<Integer> listAgentFollow) {
+	public FieldView( Object[][] data, int size, List<Integer> listAgentFollow, boolean follow) {
 		super();
 		this.data = data;
 		this.sizeGrid = size;
 		this.listAgentFollow = listAgentFollow;
+		this.follow = follow;
 	}
 
 	@Override
@@ -50,19 +52,20 @@ public class FieldView extends AbstractTableModel  {
 
 			for(int id : listAgentFollow)
 				if(agent.getId() == id)
-					return "XB"+boxColor;
-
-			switch(agent.getColor()) {
-			case  BLUE:
-				return "AB"+boxColor;
-			case GREEN :
-				return "AG"+boxColor;
-			case RED :
-				return "AR"+boxColor;
-			default:
-				return "AR"+boxColor;
-			}
-
+					return "XX"+boxColor;
+			if(!follow){
+				switch(agent.getColor()) {
+				case  BLUE:
+					return "AB"+boxColor;
+				case GREEN :
+					return "AG"+boxColor;
+				case RED :
+					return "AR"+boxColor;
+				default:
+					return "AR"+boxColor;
+				}
+			}else
+				return "";
 
 		} else if (comp instanceof Box) {
 			Box box = (Box)comp;
