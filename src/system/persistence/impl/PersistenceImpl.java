@@ -37,15 +37,16 @@ public class PersistenceImpl extends PersistenceComponent {
 					
 					final Element racine = document.createElement("persistence");
 					document.appendChild(racine);
-					final Element energy = initPersist(env, document, racine);
 					
-					final Element grid = gridPersist(env.getGrid(), document, racine);
+					initPersist(env, document, racine);
+					gridPersist(env.getGrid(), document, racine);
 
 					
 					
 					final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 					final Transformer transformer = transformerFactory.newTransformer();
 					final DOMSource source = new DOMSource(document);
+					deleteFileIfExist();
 					final StreamResult sortie = new StreamResult(new File("Persistence.xml"));
 					transformer.transform(source, sortie);
 				}catch (Exception e) {
@@ -55,6 +56,17 @@ public class PersistenceImpl extends PersistenceComponent {
 
 				System.out.println("End of: PersistenceImpl#getLap");
 
+			}
+
+			private void deleteFileIfExist() {
+				try{
+			        File fileTemp = new File("Persistence.xml");
+			          if (fileTemp.exists()){
+			             fileTemp.delete();
+			          }   
+			      }catch(Exception e){
+			         e.printStackTrace();
+			      }
 			}
 
 			private Element gridPersist(Grid grid, Document document, Element racine) {
@@ -138,7 +150,7 @@ public class PersistenceImpl extends PersistenceComponent {
 			}
 
 			private Element agentNode(int x, int y, Document document, Agent curenAgent){
-				Element agent = document.createElement("Nest");
+				Element agent = document.createElement("Agent");
 				agent.setAttribute("X", ""+x);
 				agent.setAttribute("Y", ""+y);
 				
