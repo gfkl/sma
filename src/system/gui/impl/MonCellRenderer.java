@@ -17,7 +17,11 @@ public class MonCellRenderer  extends DefaultTableCellRenderer {
 		{
 			JLabel label = (JLabel) component;
 			String labelValue = label.getText();
-			if (labelValue.contains("AB"))
+			if(labelValue.contains("X")){
+				label.setText("A");
+				component = agentHaveBox(labelValue, component);
+				setForeground(Color.black);
+			} else if (labelValue.contains("AB"))
 			{
 				label.setText("A");
 				setForeground(Color.blue);
@@ -110,7 +114,7 @@ public class MonCellRenderer  extends DefaultTableCellRenderer {
 			setForeground(Color.cyan);
 		}
 		else if(colorAgent  == 'G'){
-			setForeground(Color.darkGray);
+			setForeground(Color.magenta);
 		}
 	}
 }

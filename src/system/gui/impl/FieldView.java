@@ -11,11 +11,13 @@ public class FieldView extends AbstractTableModel  {
 
 	private Object[][] data;
 	private int sizeGrid;
+	private int idAgentFollow;
 
-	public FieldView( Object[][] data, int size) {
+	public FieldView( Object[][] data, int size, int idAgent) {
 		super();
 		this.data = data;
 		this.sizeGrid = size;
+		this.idAgentFollow = idAgent;
 	}
 
 	@Override
@@ -26,6 +28,7 @@ public class FieldView extends AbstractTableModel  {
 			Agent agent = (Agent)comp;
 
 			String boxColor = "N";
+			
 			if(agent.getBoxTransported() != null){
 				switch(agent.getBoxTransported().getColor()) {
 				case BLUE:
@@ -42,7 +45,10 @@ public class FieldView extends AbstractTableModel  {
 					break;
 				}
 			}
-
+			
+			if(agent.getId() == idAgentFollow)
+				return "XB"+boxColor;
+			
 			switch(agent.getColor()) {
 			case  BLUE:
 				return "AB"+boxColor;
