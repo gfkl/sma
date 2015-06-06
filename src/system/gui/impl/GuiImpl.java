@@ -3,6 +3,8 @@ package system.gui.impl;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -22,13 +24,13 @@ import system.model.objects.Agent;
 public class GuiImpl extends GuiComponent {
 
 	private JFrame frame;
-	private final int incSpeed = 50;
+	private final int incSpeed = 25;
 	private boolean isPause = false;
 	private boolean nextStep = false;
 	private boolean readByStep = false;
 	private int speed;
 	
-	private int idAgentFollow = -1;
+	private List<Integer> listAgentFollow = new ArrayList<Integer>();
 
 	@Override
 	protected IGui make_printer() {
@@ -36,7 +38,7 @@ public class GuiImpl extends GuiComponent {
 			@Override
 			public EnvConfigDTO printEnv(EnvObsDTO env) {
 				Object[][] objs = (Object[][]) env.getGrid().getGrid();
-				FieldView field = new FieldView(objs, env.getGrid().getGridSize(), idAgentFollow);
+				FieldView field = new FieldView(objs, env.getGrid().getGridSize(), listAgentFollow);
 				JTable table = new JTable(field);
 				table.setDefaultRenderer(Object.class, new MonCellRenderer());
 				
@@ -50,7 +52,8 @@ public class GuiImpl extends GuiComponent {
 			            
 			            Object comp = objs[row][column];
 			            if (comp instanceof Agent) {
-			            	idAgentFollow = ((Agent) comp).getId();
+			            	listAgentFollow.add(((Agent) comp).getId());
+			            	//env.setIdAgentSelected(idAgentFollow);
 			            }
 
 			        }
@@ -68,6 +71,23 @@ public class GuiImpl extends GuiComponent {
 				return new EnvConfigDTO(speed);
 			}
 
+
+			@Override
+			public void createGUI() {
+				speed = 100;
+				frame = new JFrame();
+				frame.setTitle("SMA-AL Viewer");
+				frame.setBounds(100, 100, 900, 900);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+				createMenuBar();
+			}
+
+			public List<Integer> getFocusRobot() {
+				return listAgentFollow;
+			}
+
+			
 			private void manageStepByStep() {
 				nextStep = true;
 			    while(nextStep){
@@ -94,18 +114,6 @@ public class GuiImpl extends GuiComponent {
 			        catch (InterruptedException e) {}
 			    }
 			}
-
-			@Override
-			public void createGUI() {
-				speed = 100;
-				frame = new JFrame();
-				frame.setTitle("SMA-AL Viewer");
-				frame.setBounds(100, 100, 900, 900);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-				createMenuBar();
-			}
-
 
 			private void createMenuBar() {
 

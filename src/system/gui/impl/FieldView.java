@@ -1,5 +1,7 @@
 package system.gui.impl;
 
+import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 import system.model.objects.Agent;
@@ -11,13 +13,13 @@ public class FieldView extends AbstractTableModel  {
 
 	private Object[][] data;
 	private int sizeGrid;
-	private int idAgentFollow;
+	private List<Integer> listAgentFollow;
 
-	public FieldView( Object[][] data, int size, int idAgent) {
+	public FieldView( Object[][] data, int size, List<Integer> listAgentFollow) {
 		super();
 		this.data = data;
 		this.sizeGrid = size;
-		this.idAgentFollow = idAgent;
+		this.listAgentFollow = listAgentFollow;
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class FieldView extends AbstractTableModel  {
 			Agent agent = (Agent)comp;
 
 			String boxColor = "N";
-			
+
 			if(agent.getBoxTransported() != null){
 				switch(agent.getBoxTransported().getColor()) {
 				case BLUE:
@@ -45,10 +47,11 @@ public class FieldView extends AbstractTableModel  {
 					break;
 				}
 			}
-			
-			if(agent.getId() == idAgentFollow)
-				return "XB"+boxColor;
-			
+
+			for(int id : listAgentFollow)
+				if(agent.getId() == id)
+					return "XB"+boxColor;
+
 			switch(agent.getColor()) {
 			case  BLUE:
 				return "AB"+boxColor;
