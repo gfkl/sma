@@ -8,10 +8,10 @@ import system.model.objects.Grid;
 import system.model.objects.Nest;
 
 public class FieldView extends AbstractTableModel  {
-	
+
 	private Object[][] data;
 	private int sizeGrid;
-	
+
 	public FieldView( Object[][] data, int size) {
 		super();
 		this.data = data;
@@ -24,18 +24,37 @@ public class FieldView extends AbstractTableModel  {
 
 		if (comp instanceof Agent) {
 			Agent agent = (Agent)comp;
+
+			String boxColor = "N";
+			if(agent.getBoxTransported() != null){
+				switch(agent.getBoxTransported().getColor()) {
+				case BLUE:
+					boxColor = "B";
+					break;
+				case GREEN :
+					boxColor = "G";
+					break;
+				case RED :
+					boxColor = "R";
+					break;
+				default:
+					boxColor = "N";
+					break;
+				}
+			}
+
 			switch(agent.getColor()) {
 			case  BLUE:
-				return "AB";
+				return "AB"+boxColor;
 			case GREEN :
-				return "AG";
+				return "AG"+boxColor;
 			case RED :
-				return "AR";
+				return "AR"+boxColor;
 			default:
-				return "AR";
+				return "AR"+boxColor;
 			}
-			
-			
+
+
 		} else if (comp instanceof Box) {
 			Box box = (Box)comp;
 			switch(box.getColor()) {
@@ -71,7 +90,7 @@ public class FieldView extends AbstractTableModel  {
 	public int getColumnCount() {
 		return this.sizeGrid;
 	}
-	
+
 	@Override
 	public int getRowCount() {
 		return this.sizeGrid;
