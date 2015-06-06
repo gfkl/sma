@@ -111,7 +111,7 @@ public class MonCellRenderer  extends DefaultTableCellRenderer {
 			setForeground(Color.orange);
 		}
 		else if(colorAgent  == 'B'){
-			setForeground(Color.cyan);
+			setForeground(Color.pink);
 		}
 		else if(colorAgent  == 'G'){
 			setForeground(Color.darkGray);
