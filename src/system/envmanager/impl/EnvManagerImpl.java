@@ -186,8 +186,17 @@ public class EnvManagerImpl extends EnvManagerComponent {
 				int GRID_SIZE = Integer.parseInt(prop.getProperty("GRID_SIZE")); 
 				int LAP_SPEED_INIT = Integer.parseInt(prop.getProperty("LAP_SPEED_INIT")); 
 				int ENERGY_CONSUMED_ACTION = Integer.parseInt(prop.getProperty("ENERGY_CONSUMED_ACTION")); 
+				int NB_BOXES_INIT = Integer.parseInt(prop.getProperty("NB_BOXES_INIT")); 
+				int NB_AGENTS_INIT = Integer.parseInt(prop.getProperty("NB_AGENTS_INIT")); 
+				int AGENT_ENERGY_INIT = Integer.parseInt(prop.getProperty("AGENT_ENERGY_INIT")); 
+				int NB_LAPS_CREATE_BOX = Integer.parseInt(prop.getProperty("NB_LAPS_CREATE_BOX")); 
+				int NB_BOXES_TO_CREATE = Integer.parseInt(prop.getProperty("NB_BOXES_TO_CREATE")); 
+				int GOOD_COLOR_BOX_ENERGY_REWARD = Integer.parseInt(prop.getProperty("GOOD_COLOR_BOX_ENERGY_REWARD")); 
+				int WRONG_COLOR_BOX_ENERGY_REWARD = Integer.parseInt(prop.getProperty("WRONG_COLOR_BOX_ENERGY_REWARD")); 
+				int ENERGY_CONSUMED_TO_CREATE = Integer.parseInt(prop.getProperty("ENERGY_CONSUMED_TO_CREATE")); 
+				int ENERGY_REQUIRED_TO_CREATE = Integer.parseInt(prop.getProperty("ENERGY_REQUIRED_TO_CREATE")); 
 				String DEBUG_PRINTER = prop.getProperty("DEBUG_PRINTER"); 
-
+				
 				this.GRID_SIZE = GRID_SIZE;
 				this.LAP_SPEED_INIT = LAP_SPEED_INIT;
 				this.ENERGY_CONSUMED_ACTION = ENERGY_CONSUMED_ACTION;
@@ -196,16 +205,15 @@ public class EnvManagerImpl extends EnvManagerComponent {
 				else
 					this.DEBUG_PRINTER = true;
 
-				this.NB_BOXES_INIT = GRID_SIZE / 2;
-				this.NB_AGENTS_INIT = GRID_SIZE / 2;
-				this.AGENT_ENERGY_INIT = GRID_SIZE * 2;
-				this.NB_LAPS_CREATE_BOX = GRID_SIZE / 2;
-				this.NB_BOXES_TO_CREATE = GRID_SIZE / 2;
-				this.GOOD_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 5;
-				this.WRONG_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 2;
-				this.ENERGY_CONSUMED_TO_CREATE = GRID_SIZE * 5;
-				this.ENERGY_REQUIRED_TO_CREATE = GRID_SIZE * 10;
-				
+				this.NB_BOXES_INIT = NB_BOXES_INIT;
+				this.NB_AGENTS_INIT = NB_AGENTS_INIT;
+				this.AGENT_ENERGY_INIT = AGENT_ENERGY_INIT;
+				this.NB_LAPS_CREATE_BOX = NB_LAPS_CREATE_BOX;
+				this.NB_BOXES_TO_CREATE = NB_BOXES_TO_CREATE;
+				this.GOOD_COLOR_BOX_ENERGY_REWARD = GOOD_COLOR_BOX_ENERGY_REWARD;
+				this.WRONG_COLOR_BOX_ENERGY_REWARD = WRONG_COLOR_BOX_ENERGY_REWARD;
+				this.ENERGY_CONSUMED_TO_CREATE = ENERGY_CONSUMED_TO_CREATE;
+				this.ENERGY_REQUIRED_TO_CREATE = ENERGY_REQUIRED_TO_CREATE;
 
 				return result;
 			}
