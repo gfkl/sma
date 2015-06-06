@@ -1,5 +1,11 @@
 package system.envmanager.impl;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Properties;
 import java.util.Random;
 
 import system.dto.EnvConfigDTO;
@@ -14,37 +20,43 @@ import system.model.objects.Grid;
 import system.model.objects.Nest;
 
 public class EnvManagerImpl extends EnvManagerComponent {
-		
+
 	@Override
 	protected IEnvManager make_runenv() {
 		return new IEnvManager() {
 
 			// System configuration. You can update values to experiment agent behaviors
-			public static final int GRID_SIZE = 50;
-			public static final int NB_BOXES_INIT = GRID_SIZE / 2;
-			public static final int LAP_SPEED_INIT = 100; // ms
-			public static final int NB_AGENTS_INIT = GRID_SIZE / 2;
-			public static final int AGENT_ENERGY_INIT = GRID_SIZE * 2;
-			public static final int NB_LAPS_CREATE_BOX = GRID_SIZE / 2;
-			public static final int NB_BOXES_TO_CREATE = GRID_SIZE / 2;
-			public static final int GOOD_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 5;
-			public static final int WRONG_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 2;
-			public static final int ENERGY_CONSUMED_TO_CREATE = GRID_SIZE * 5;
-			public static final int ENERGY_REQUIRED_TO_CREATE = GRID_SIZE * 10;
-			public static final int ENERGY_CONSUMED_ACTION = 1;
-			public static final boolean DEBUG_PRINTER = false;
-			
+			public int GRID_SIZE = 50;
+			public int NB_BOXES_INIT = GRID_SIZE / 2;
+			public int LAP_SPEED_INIT = 100; // ms
+			public int NB_AGENTS_INIT = GRID_SIZE / 2;
+			public int AGENT_ENERGY_INIT = GRID_SIZE * 2;
+			public int NB_LAPS_CREATE_BOX = GRID_SIZE / 2;
+			public int NB_BOXES_TO_CREATE = GRID_SIZE / 2;
+			public int GOOD_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 5;
+			public int WRONG_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 2;
+			public int ENERGY_CONSUMED_TO_CREATE = GRID_SIZE * 5;
+			public int ENERGY_REQUIRED_TO_CREATE = GRID_SIZE * 10;
+			public int ENERGY_CONSUMED_ACTION = 1;
+			public boolean DEBUG_PRINTER = false;
 
-			
+
+
 			EnvConfigDTO config = new EnvConfigDTO(LAP_SPEED_INIT);
 			EnvDTO env = new EnvDTO();
 			int idBox = 0;
 			int idNest = 0;
 
-			
+
 			private void initEnv() {
-				Object[][] grid = new Object[GRID_SIZE][GRID_SIZE];
+				try {
+					getPropValues();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				
+				Object[][] grid = new Object[GRID_SIZE][GRID_SIZE];
+
 				// Creation of Nests
 				grid[0][0] = new Nest(ColorEnum.RED, ++idNest);
 				grid[GRID_SIZE - 1][0] = new Nest(ColorEnum.BLUE, ++idNest);
@@ -58,27 +70,27 @@ public class EnvManagerImpl extends EnvManagerComponent {
 				this.env.setEnergyConcumedToCreate(ENERGY_CONSUMED_TO_CREATE);
 				this.env.setEnergyRequiredToCreate(ENERGY_REQUIRED_TO_CREATE);
 				this.env.setEnergyConsumedAction(ENERGY_CONSUMED_ACTION);
-				
+
 				// Creation of Boxes
 				this.generateBoxes(NB_BOXES_INIT);
-				
+
 				// Creation of Agents
 				this.env = requires().agentmanager().init(this.env, NB_AGENTS_INIT);
 
 				// Creation of GUI
 				requires().gui().createGUI();
-				
+
 			}
-			
+
 			private void generateBoxes(int nbBox) {
 				Object[][] grid = this.env.getGrid().getGrid();
-				
+
 				for(int i = 0; i < nbBox; i++) {
 					int posX = new Random().nextInt(GRID_SIZE); 
 					int posY = new Random().nextInt(GRID_SIZE);
 					int color = new Random().nextInt(ColorEnum.values().length);
 					int posXSave = posX;
-					
+
 					while (grid[posX][posY] != null) {
 						posX = (posX + 1) % GRID_SIZE;
 						if (posX == posXSave) {
@@ -87,14 +99,14 @@ public class EnvManagerImpl extends EnvManagerComponent {
 					}
 					grid[posX][posY] = new Box(ColorEnum.values()[color], ++idBox);						
 				}
-				
+
 				this.env.getGrid().setGrid(grid);
 			}
-		
+
 			@Override
 			public void runEnv() {
 				int lap = 0;
-				
+
 				initEnv();
 				while (!this.config.isExit()) {
 
@@ -110,14 +122,14 @@ public class EnvManagerImpl extends EnvManagerComponent {
 					EnvObsDTO envObs = new EnvObsDTO();
 					envObs.setGrid(new Grid(this.env.getGrid().getGrid(), GRID_SIZE));
 					this.config = requires().gui().printEnv(envObs);
-					
+
 					this.env.setIdAgentFollow(envObs.getIdAgentSelected());
-					
+
 					// Debug trace of the grid
 					if (DEBUG_PRINTER) {
 						debugPrintEnv();
 					}
-					
+
 					// timer
 					try {
 						Thread.sleep(this.config.getSpeed());
@@ -126,7 +138,7 @@ public class EnvManagerImpl extends EnvManagerComponent {
 					}
 				}
 			}
-			
+
 			private void debugPrintEnv() {
 				System.out.println("\n----------------------------------------------\n");
 				for (int y = 0; y < GRID_SIZE; y++) {
@@ -145,15 +157,61 @@ public class EnvManagerImpl extends EnvManagerComponent {
 						} else {
 							line += "##";
 						}
-						
+
 						line += "]";
 					}
 					System.out.println(line);
 				}
 			}
-			
-			
+
+
+			public String getPropValues() throws IOException {
+
+				String result = "";
+				Properties prop = new Properties();
+				String propFileName = "config.properties";
+
+				InputStream inputStream = new FileInputStream(propFileName);
+
+				if (inputStream != null) {
+					prop.load(inputStream);
+				} else {
+					throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+				}
+
+				Date time = new Date(System.currentTimeMillis());
+
+				// get the property value and print it out
+				//i = Integer.parseInt(phrase); 
+				int GRID_SIZE = Integer.parseInt(prop.getProperty("GRID_SIZE")); 
+				int LAP_SPEED_INIT = Integer.parseInt(prop.getProperty("LAP_SPEED_INIT")); 
+				int ENERGY_CONSUMED_ACTION = Integer.parseInt(prop.getProperty("ENERGY_CONSUMED_ACTION")); 
+				String DEBUG_PRINTER = prop.getProperty("DEBUG_PRINTER"); 
+
+				this.GRID_SIZE = GRID_SIZE;
+				this.LAP_SPEED_INIT = LAP_SPEED_INIT;
+				this.ENERGY_CONSUMED_ACTION = ENERGY_CONSUMED_ACTION;
+				if(DEBUG_PRINTER.equals("false"))
+					this.DEBUG_PRINTER = false;
+				else
+					this.DEBUG_PRINTER = true;
+
+				this.NB_BOXES_INIT = GRID_SIZE / 2;
+				this.NB_AGENTS_INIT = GRID_SIZE / 2;
+				this.AGENT_ENERGY_INIT = GRID_SIZE * 2;
+				this.NB_LAPS_CREATE_BOX = GRID_SIZE / 2;
+				this.NB_BOXES_TO_CREATE = GRID_SIZE / 2;
+				this.GOOD_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 5;
+				this.WRONG_COLOR_BOX_ENERGY_REWARD = GRID_SIZE * 2;
+				this.ENERGY_CONSUMED_TO_CREATE = GRID_SIZE * 5;
+				this.ENERGY_REQUIRED_TO_CREATE = GRID_SIZE * 10;
+				
+
+				return result;
+			}
+
+
 		};
 	}
-		
+
 }
